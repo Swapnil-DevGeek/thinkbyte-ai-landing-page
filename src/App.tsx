@@ -9,6 +9,8 @@ import Work from "./pages/Work";
 import SeoAgent from "./pages/work/SeoAgent";
 import DementiaCare from "./pages/work/DementiaCare";
 import RecruitmentAgent from "./pages/work/RecruitmentAgent";
+import RevitAgent from "./pages/work/RevitAgent";
+import NirogGyanMessaging from "./pages/work/NirogGyanMessaging";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +24,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/work" element={<Work />} />
           <Route path="/work/seo-agent" element={<SeoAgent />} />
+          <Route path="/work/revit-agent" element={<RevitAgent />} />
+          <Route path="/work/nirog-gyan-messaging" element={<NirogGyanMessaging />} />
           <Route path="/work/dementia-care" element={<DementiaCare />} />
           <Route path="/work/recruitment-agent" element={<RecruitmentAgent />} />
           <Route path="*" element={<NotFound />} />

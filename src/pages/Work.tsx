@@ -4,12 +4,12 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronDownIcon, CheckCircle2, ArrowRightIcon, StarIcon, ExternalLinkIcon, SearchIcon, BrainIcon, UsersIcon, FileTextIcon } from "lucide-react";
+import { ChevronDownIcon, CheckCircle2, ArrowRightIcon, StarIcon, ExternalLinkIcon, SearchIcon, BrainIcon, UsersIcon, FileTextIcon, Filter, Grid, List, Eye, Clock, TrendingUp, Zap, Target, Award } from "lucide-react";
 import { FadeIn } from "@/components/magicui/fade-in";
 import { SlideIn } from "@/components/magicui/slide-in";
 import { AnimatedCard } from "@/components/magicui/animated-card";
 
-// Updated project data with new content
+// Enhanced project data with better visuals and metrics
 const projects = [
   {
     id: "seo-agent",
@@ -19,7 +19,51 @@ const projects = [
     outcome: "Boost organic traffic up to 300%",
     summary: "We built an AI SEO automation solution using advanced machine learning and natural language processing to automate keyword research, content creation, and optimization strategies, eliminating manual SEO tasks and freeing businesses to focus on core operations.",
     tags: ["SEO", "AI Automation", "Content Marketing"],
-    gradient: "from-blue-600/20 via-cyan-500/10 to-transparent"
+    gradient: "from-blue-600/20 via-cyan-500/10 to-transparent",
+    category: "Marketing",
+    duration: "3 months",
+    metrics: [
+      { label: "Traffic Increase", value: "300%", icon: TrendingUp },
+      { label: "Time Saved", value: "80%", icon: Clock },
+      { label: "Keywords Ranked", value: "2.5k+", icon: Target }
+    ],
+    featured: true
+  },
+  {
+    id: "revit-agent",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&crop=center",
+    title: "Revit Agent",
+    subtitle: "Cloud Details Management Platform",
+    outcome: "Eliminate redundant design work by 30%",
+    summary: "AI-first platform to eliminate redundant design work by 30% and accelerate architectural workflows by 50%. ThinkByte partnered with PKC Consulting to build an AI-powered detail management system for AEC firms that transforms how architectural details are stored, retrieved, and reused across projects.",
+    tags: ["AEC", "Revit Plugin", "AI Integration"],
+    gradient: "from-orange-600/20 via-yellow-500/10 to-transparent",
+    category: "Architecture & Engineering",
+    duration: "5 months",
+    metrics: [
+      { label: "Design Redundancy", value: "-30%", icon: Target },
+      { label: "Detail Retrieval", value: "50%", icon: Zap },
+      { label: "Workflow Speed", value: "50%", icon: TrendingUp }
+    ],
+    featured: false
+  },
+  {
+    id: "nirog-gyan-messaging",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=600&fit=crop&crop=center",
+    title: "NirogGyan Messaging App",
+    subtitle: "Personalized Messaging App for Healthcare",
+    outcome: "Boosted repeat visits targeting patient context",
+    summary: "In the diagnostic healthcare space, retention is a huge challenge — fewer than 25% of patients return after their first test. We built an AI-powered messaging engine that speaks directly to the patient's condition, emotional context, and health data to dramatically improve engagement and retention rates.",
+    tags: ["Healthcare", "Patient Engagement", "AI Messaging"],
+    gradient: "from-teal-600/20 via-cyan-500/10 to-transparent",
+    category: "Healthcare",
+    duration: "4 months",
+    metrics: [
+      { label: "Patient Engagement", value: "85%", icon: TrendingUp },
+      { label: "Retention Rate", value: "60%", icon: Award },
+      { label: "Message Scale", value: "10k+", icon: Zap }
+    ],
+    featured: false
   },
   {
     id: "dementia-care",
@@ -29,7 +73,15 @@ const projects = [
     outcome: "Improve patient outcomes by up to 85%",
     summary: "We built an AI-driven dementia care solution using machine learning, emotion recognition, and personalized care algorithms to automate patient monitoring, caregiver support, and activity recommendations, enabling families and healthcare providers to deliver comprehensive, individualized care for people with dementia.",
     tags: ["Healthcare", "AI", "Patient Care"],
-    gradient: "from-purple-600/20 via-pink-500/10 to-transparent"
+    gradient: "from-purple-600/20 via-pink-500/10 to-transparent",
+    category: "Healthcare",
+    duration: "6 months",
+    metrics: [
+      { label: "Care Quality", value: "85%", icon: Award },
+      { label: "Caregiver Stress", value: "-70%", icon: TrendingUp },
+      { label: "Engagement", value: "90%", icon: Target }
+    ],
+    featured: false
   },
   {
     id: "recruitment-agent",
@@ -39,7 +91,15 @@ const projects = [
     outcome: "Reduce hiring time by up to 75%",
     summary: "We built an intelligent recruitment automation solution using multi-agent AI architecture and natural language processing to automate job posting, candidate screening, and interview management, eliminating manual recruitment tasks and enabling hiring managers to focus on strategic decision-making and candidate evaluation.",
     tags: ["HR", "Recruitment", "AI Automation"],
-    gradient: "from-green-600/20 via-emerald-500/10 to-transparent"
+    gradient: "from-green-600/20 via-emerald-500/10 to-transparent",
+    category: "HR & Recruitment",
+    duration: "4 months",
+    metrics: [
+      { label: "Hiring Time", value: "-75%", icon: Clock },
+      { label: "Candidate Quality", value: "95%", icon: Award },
+      { label: "Process Efficiency", value: "4x", icon: Zap }
+    ],
+    featured: false
   }
 ];
 
@@ -92,6 +152,14 @@ const faqs = [
 
 export default function Work() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  
+  const categories = ["All", "Marketing", "Healthcare", "Architecture & Engineering", "HR & Recruitment"];
+  
+  const filteredProjects = selectedCategory === "All" 
+    ? projects 
+    : projects.filter(project => project.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -112,14 +180,70 @@ export default function Work() {
             </div>
           </FadeIn>
 
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {projects.map((project, idx) => (
-              <FadeIn key={idx} delay={200 + idx * 100} duration={600}>
-                <ProjectCard project={project} />
-              </FadeIn>
+          {/* Project Filters */}
+          <FadeIn delay={200} duration={600}>
+            <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+              {/* Category Filters */}
+              <div className="flex flex-wrap gap-3">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                      selectedCategory === category
+                        ? "bg-violet-500 text-white shadow-lg shadow-violet-500/25"
+                        : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50 border border-neutral-700"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+              
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-2 bg-neutral-900/50 rounded-full p-1 border border-neutral-800">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    viewMode === "grid"
+                      ? "bg-violet-500 text-white"
+                      : "text-neutral-400 hover:text-white"
+                  }`}
+                >
+                  <Grid className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    viewMode === "list"
+                      ? "bg-violet-500 text-white"
+                      : "text-neutral-400 hover:text-white"
+                  }`}
+                >
+                  <List className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </FadeIn>
+
+          {/* Projects Grid/List */}
+          <div className={viewMode === "grid" ? "grid grid-cols-1 lg:grid-cols-2 gap-8" : "space-y-6"}>
+            {filteredProjects.map((project, idx) => (
+              <ProjectCard key={project.id} project={project} viewMode={viewMode} />
             ))}
           </div>
+          
+          {filteredProjects.length === 0 && (
+            <FadeIn delay={400} duration={600}>
+              <div className="text-center py-20">
+                <div className="w-24 h-24 rounded-full bg-neutral-800/50 flex items-center justify-center mx-auto mb-6">
+                  <SearchIcon className="h-12 w-12 text-neutral-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-neutral-300 mb-2">No projects found</h3>
+                <p className="text-neutral-500">Try selecting a different category</p>
+              </div>
+            </FadeIn>
+          )}
         </div>
       </section>
 
@@ -166,30 +290,42 @@ export default function Work() {
           {/* Client Logos Grid */}
           <SlideIn direction="up" delay={400} duration={800}>
             <div className="relative">
-              {/* Grid background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-800/20 to-transparent rounded-3xl"></div>
+              {/* Enhanced background with multiple layers */}
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 via-blue-500/10 to-violet-500/5 rounded-3xl"></div>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.1),transparent_70%)] rounded-3xl"></div>
               
-              <div className="relative p-6 rounded-3xl bg-neutral-900/30 border border-neutral-800 backdrop-blur-sm">
-                <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-8 md:gap-12 items-center justify-items-center">
+              <div className="relative p-8 rounded-3xl bg-neutral-900/40 border border-neutral-700/50 backdrop-blur-lg">
+                <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-9 gap-6 md:gap-8 items-center justify-items-center">
                   {clientLogos.map((logo, idx) => (
                     <div
                       key={idx}
-                      className="group relative w-full h-24 md:h-28 flex items-center justify-center transition-all duration-500"
+                      className="group relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-700 hover:z-10"
                     >
-                      {/* Hover effect background */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-blue-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      {/* Enhanced hover background with multiple layers */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-blue-500/15 to-purple-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-105"></div>
+                      <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                       
                       <img
                         src={logo.src}
                         alt={logo.alt}
-                        className="relative max-w-full max-h-full object-contain opacity-60 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110 filter brightness-0 invert group-hover:filter-none"
+                        className="relative max-w-full max-h-full object-contain opacity-50 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110 filter brightness-0 invert group-hover:brightness-100 group-hover:invert-0"
                       />
                       
-                      {/* Glow effect on hover */}
-                      <div className="absolute inset-0 rounded-xl shadow-[0_0_20px_rgba(139,92,246,0.3)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                      {/* Enhanced glow effect */}
+                      <div className="absolute inset-0 rounded-2xl shadow-[0_0_30px_rgba(139,92,246,0.4)] opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                      
+                      {/* Company name tooltip */}
+                      <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-neutral-900 text-white text-xs font-medium rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap border border-neutral-700">
+                        {logo.alt}
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-neutral-900 border-r border-b border-neutral-700 rotate-45 -mt-1"></div>
+                      </div>
                     </div>
                   ))}
                 </div>
+                
+                {/* Animated border */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-violet-500/20 via-blue-500/20 to-violet-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 -z-10 blur-xl"></div>
               </div>
             </div>
           </SlideIn>
@@ -331,13 +467,101 @@ export default function Work() {
 // Project Card Component
 interface ProjectCardProps {
   project: typeof projects[0];
-  featured?: boolean;
+  viewMode?: "grid" | "list";
 }
 
-function ProjectCard({ project, featured = false }: ProjectCardProps) {
+function ProjectCard({ project, viewMode = "grid" }: ProjectCardProps) {
+  if (viewMode === "list") {
+    return (
+      <Link to={`/work/${project.id}`}>
+        <AnimatedCard className="group relative overflow-hidden bg-neutral-900/50 backdrop-blur border border-neutral-800 hover:border-neutral-600 transition-all duration-500 rounded-xl shadow-lg hover:shadow-xl cursor-pointer h-48">
+          <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+          
+          <div className="relative flex flex-col md:flex-row gap-6 p-6 h-full">
+            {/* Image */}
+            <div className="relative w-full md:w-80 h-32 overflow-hidden rounded-lg flex-shrink-0">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent"></div>
+              
+              {/* Featured badge */}
+              {project.featured && (
+                <div className="absolute top-3 left-3 px-2 py-1 bg-violet-500 text-white text-xs font-semibold rounded-full">
+                  Featured
+                </div>
+              )}
+            </div>
+            
+            {/* Content */}
+            <div className="flex-1 flex flex-col justify-between">
+              <div>
+                {/* Tags and Category */}
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <Badge variant="secondary" className="bg-violet-500/20 text-violet-300 border-0 text-xs">
+                    {project.category}
+                  </Badge>
+                  <Badge variant="secondary" className="bg-neutral-700/50 text-neutral-400 border-0 text-xs">
+                    {project.duration}
+                  </Badge>
+                  {project.tags.slice(0, 2).map((tag, i) => (
+                    <Badge key={i} variant="secondary" className="bg-neutral-800/50 text-neutral-300 border-0 text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                
+                {/* Title and Subtitle */}
+                <h3 className="font-bold mb-2 text-white group-hover:text-violet-200 transition-colors text-xl">
+                  {project.title}
+                </h3>
+                <p className="text-sm text-neutral-400 mb-3">
+                  {project.subtitle}
+                </p>
+                
+                {/* Outcome */}
+                <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-sm font-medium mb-3 border border-green-500/30">
+                  <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
+                  {project.outcome}
+                </div>
+              </div>
+              
+              {/* Metrics */}
+              <div className="flex flex-wrap gap-4 mt-4">
+                {project.metrics.slice(0, 2).map((metric, i) => {
+                  const IconComponent = metric.icon;
+                  return (
+                    <div key={i} className="flex items-center gap-2 text-sm text-neutral-400">
+                      <IconComponent className="h-4 w-4 text-violet-400" />
+                      <span className="font-semibold text-white">{metric.value}</span>
+                      <span>{metric.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+            {/* View Icon */}
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-neutral-800/50 group-hover:bg-violet-500/20 transition-colors duration-300 flex-shrink-0">
+              <Eye className="h-5 w-5 text-neutral-400 group-hover:text-violet-400 transition-colors" />
+            </div>
+          </div>
+        </AnimatedCard>
+      </Link>
+    );
+  }
   return (
     <Link to={`/work/${project.id}`}>
-      <AnimatedCard className="group relative overflow-hidden bg-neutral-900/50 backdrop-blur border border-neutral-800 hover:border-neutral-600 transition-all duration-500 rounded-xl shadow-lg hover:shadow-xl cursor-pointer h-[600px]">
+      <AnimatedCard className="group relative overflow-hidden bg-neutral-900/50 backdrop-blur border border-neutral-800 hover:border-neutral-600 transition-all duration-500 rounded-xl shadow-lg hover:shadow-xl cursor-pointer h-[650px]">
+        {/* Featured Badge */}
+        {project.featured && (
+          <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-violet-500 text-white text-sm font-semibold rounded-full">
+            Featured
+          </div>
+        )}
+        
         {/* Gradient Overlay */}
         <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
 
@@ -346,7 +570,7 @@ function ProjectCard({ project, featured = false }: ProjectCardProps) {
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/50 to-transparent"></div>
           
@@ -361,13 +585,19 @@ function ProjectCard({ project, featured = false }: ProjectCardProps) {
 
         {/* Content */}
         <div className="relative p-6 flex flex-col h-full">
-          {/* Tags */}
+          {/* Category and Duration */}
           <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag, i) => (
+            <Badge variant="secondary" className="bg-violet-500/20 text-violet-300 border-0 text-xs">
+              {project.category}
+            </Badge>
+            <Badge variant="secondary" className="bg-neutral-700/50 text-neutral-400 border-0 text-xs">
+              {project.duration}
+            </Badge>
+            {project.tags.slice(0, 2).map((tag, i) => (
               <Badge
                 key={i}
                 variant="secondary"
-                className="bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50 border-0"
+                className="bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50 border-0 text-xs"
               >
                 {tag}
               </Badge>
@@ -380,12 +610,12 @@ function ProjectCard({ project, featured = false }: ProjectCardProps) {
           </h3>
 
           {/* Subtitle */}
-          <p className="text-sm text-neutral-400 mb-3">
+          <p className="text-neutral-400 mb-3 text-sm">
             {project.subtitle}
           </p>
 
           {/* Outcome Badge */}
-          <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-sm font-medium mb-3 border border-green-500/30">
+          <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-sm font-medium mb-4 border border-green-500/30">
             <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
             {project.outcome}
           </div>
@@ -394,9 +624,22 @@ function ProjectCard({ project, featured = false }: ProjectCardProps) {
           <p className="text-neutral-400 leading-relaxed mb-6 flex-grow text-sm">
             {project.summary}
           </p>
-
-          {/* Spacer to push content to top */}
-          <div className="mt-auto"></div>
+          
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-2 gap-3 mt-auto">
+            {project.metrics.map((metric, i) => {
+              const IconComponent = metric.icon;
+              return (
+                <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-neutral-800/30 border border-neutral-700/50">
+                  <IconComponent className="h-4 w-4 text-violet-400 flex-shrink-0" />
+                  <div className="min-w-0">
+                    <div className="font-semibold text-white text-sm">{metric.value}</div>
+                    <div className="text-xs text-neutral-400 truncate">{metric.label}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Hover Effect Shadow */}

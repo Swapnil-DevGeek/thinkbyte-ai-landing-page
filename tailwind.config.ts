@@ -101,7 +101,21 @@ export default {
 					to: {
 					  transform: 'translate(calc(-50% - 0.5rem))',
 					},
-				  },
+				},
+				grid: {
+					'0%': { transform: 'translateY(-50%)' },
+					'100%': { transform: 'translateY(-100%)' },
+				},
+				ripple: {
+					'0%': {
+						transform: 'translate(-50%, -50%) scale(0.8)',
+						opacity: '1',
+					},
+					'100%': {
+						transform: 'translate(-50%, -50%) scale(2)',
+						opacity: '0',
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -109,6 +123,8 @@ export default {
 				'marquee-horizontal': 'marquee-horizontal var(--duration) linear infinite',
 				'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
 				scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
+				grid: 'grid 15s linear infinite',
+				ripple: 'ripple 3s ease-out infinite',
 			}
 		}
 	},
