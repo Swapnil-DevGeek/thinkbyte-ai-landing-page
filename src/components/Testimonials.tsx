@@ -40,7 +40,7 @@ const thirdColumn = testimonials.slice(4, 5);
 
 const Testimonials = () => {
   return (
-    <section className="bg-black text-white my-20 relative overflow-hidden">
+    <section className="bg-black text-white mt-20 relative overflow-hidden z-10">
       <div className="container z-10 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

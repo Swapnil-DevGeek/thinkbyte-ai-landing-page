@@ -22,7 +22,7 @@ const StatementOfWorkSection = () => {
               className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight tracking-tight"
               as="h2"
             >
-              We empower clients with Generative AI models and agents that drive impactful growth and enhance ROI.
+              ThinkByte.ai: Enterprise AI Platforms That Deliver 10x Workflows in Weeks, Not Years
             </TextAnimate>
           </div>
 
@@ -46,19 +46,7 @@ const StatementOfWorkSection = () => {
               className="text-lg md:text-xl text-gray-300 leading-relaxed"
               as="p"
             >
-              We assist data-driven companies in enhancing operational efficiency, reducing costs, and creating new revenue streams through the implementation of Generative AI solutions.
-            </TextAnimate>
-
-            <TextAnimate
-              animation="fadeIn"
-              by="word"
-              delay={0.5}
-              duration={1}
-              once={true}
-              className="text-lg md:text-xl text-gray-300 leading-relaxed"
-              as="p"
-            >
-              Our AI experts can develop AI solutions from pilot to production within weeks, not years. Our development approach merges clear strategies, deep industry knowledge, and technical expertise to accelerate progress.
+              We partner with data-intensive enterprises to deploy custom AI agents, managed platforms (MCPs), and function-specific operating systems – slashing operational costs, accelerating high-stakes decisions, and converting AI pilots into scalable revenue engines.
             </TextAnimate>
           </div>
 
@@ -72,21 +60,7 @@ const StatementOfWorkSection = () => {
               className="text-base md:text-lg font-medium text-blue-400 tracking-wide"
               as="p"
             >
-              Build only what you need. From lightweight agents to orchestrated platforms — we deliver intelligent solutions built for ROI.
-            </TextAnimate>
-          </div>
-
-          {/* Tagline */}
-          <div className="pt-4">
-            <TextAnimate
-              animation="fadeIn"
-              delay={0.9}
-              duration={0.8}
-              once={true}
-              className="text-sm md:text-base text-gray-400 italic"
-              as="p"
-            >
-              ThinkByte.ai combines precision AI with human ingenuity to drive meaningful business growth.
+              Proven. Integrated. ROI-Driven.
             </TextAnimate>
           </div>
         </div>

@@ -162,7 +162,7 @@ export default function Work() {
     : projects.filter(project => project.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white z-10">
       <Navigation />
 
       {/* Hero Section */}
@@ -393,7 +393,7 @@ export default function Work() {
       </section>
 
       {/* Enhanced FAQ Section */}
-      <section className="py-20 md:py-28 px-4">
+      <section className="pt-20 md:pt-28 px-4 z-10 mb-20">
         <div className="max-w-4xl mx-auto">
           <FadeIn delay={0} duration={600}>
             <div className="text-center mb-12 md:mb-16">
@@ -457,9 +457,7 @@ export default function Work() {
           </div>
         </div>
       </section>
-
-      
-      <Footer />
+        <Footer />      
     </div>
   );
 }

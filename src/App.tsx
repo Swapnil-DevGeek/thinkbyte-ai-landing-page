@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Work from "./pages/Work";
+import Contact from "./pages/Contact";
 import SeoAgent from "./pages/work/SeoAgent";
 import DementiaCare from "./pages/work/DementiaCare";
 import RecruitmentAgent from "./pages/work/RecruitmentAgent";
@@ -23,6 +24,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/work" element={<Work />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/work/seo-agent" element={<SeoAgent />} />
           <Route path="/work/revit-agent" element={<RevitAgent />} />
           <Route path="/work/nirog-gyan-messaging" element={<NirogGyanMessaging />} />

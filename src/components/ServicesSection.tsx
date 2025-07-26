@@ -33,7 +33,7 @@ const ServicesSection = () => {
     {
       icon: Settings,
       title: "Managed AI Platforms (MCPs)",
-      description: "End-to-end AI ecosystems tailored to your stack. Deploy our pre-built or custom platforms (Marketing OS, SEOBYTE, etc.) to unify data, tools, and workflows.",
+      description: "End-to-end AI ecosystems tailored to your stack. Deploy our pre-built or custom platforms (Marketing OS, SEOBYTE, etc.) to unify data, tools, and workflows. We handle implementation, maintenance, and scaling so you focus on growth.",
       features: ["Marketing OS", "Custom Platforms", "Data Unification", "Workflow Integration"],
       badge: "Popular",
       gradient: "from-blue-500/20 to-cyan-500/20",
@@ -50,9 +50,9 @@ const ServicesSection = () => {
     },
     {
       icon: Bot,
-      title: "Custom AI Agents",
-      description: "Purpose-built AI solving specific operational challenges. Process-Specific Agents and Generative AI Solutions.",
-      features: ["Process Automation", "Generative Solutions", "Custom Development"],
+      title: "Custom AI Agents & Applications",
+      description: "Purpose-built AI solving specific operational challenges. Process-Specific Agents: AI that automates complex tasks (e.g., supply chain optimization, HR workflows). Generative AI Solutions: Bespoke tools for content creation, prototyping, and customer engagement. Function-Level OS: Vertical AI systems (Marketing OS, Finance OS) that transform departments.",
+      features: ["Process Automation", "Generative Solutions", "Function-Level OS", "Custom Development"],
       badge: "Custom",
       gradient: "from-green-500/20 to-emerald-500/20",
       hoverGradient: "from-green-500/30 to-emerald-500/30",
@@ -61,10 +61,10 @@ const ServicesSection = () => {
     },
     {
       icon: MessageSquare,
-      title: "Customer Engagement",
-      description: "AI-powered chatbots and virtual assistants tailored to your business processes.",
-      features: ["AI Chatbots", "Virtual Assistants", "Process Integration"],
-      badge: "Engagement",
+      title: "AI Integration Layer",
+      description: "Seamlessly embed AI into existing tools. Our 'RevIT' framework adds an intelligence layer atop your current tech stack (CRMs, ERPs, analytics), enhancing capabilities without disruption.",
+      features: ["RevIT Framework", "Seamless Integration", "Enhanced Capabilities", "No Disruption"],
+      badge: "Integration",
       gradient: "from-cyan-500/20 to-blue-500/20",
       hoverGradient: "from-cyan-500/30 to-blue-500/30",
       size: "medium",
@@ -72,10 +72,10 @@ const ServicesSection = () => {
     },
     {
       icon: Cog,
-      title: "MLOps Operations",
-      description: "Efficient AI implementation with measurable impact through development, deployment, and optimization.",
-      features: ["MLOps Implementation", "System Optimization", "Performance Monitoring"],
-      badge: "Operations",
+      title: "Rapid AI Prototyping (POCs)",
+      description: "Validate value in weeks, not years. Low-risk pilot programs targeting high-impact use cases. Test drive AI solutions before full-scale investment.",
+      features: ["Rapid Validation", "Low-Risk Pilots", "High-Impact Use Cases", "Test Before Invest"],
+      badge: "Prototyping",
       gradient: "from-orange-500/20 to-red-500/20",
       hoverGradient: "from-orange-500/30 to-red-500/30",
       size: "medium",
@@ -83,10 +83,10 @@ const ServicesSection = () => {
     },
     {
       icon: Brain,
-      title: "Enterprise AI Agents",
-      description: "Intelligent, purpose-driven AI agents designed to revolutionize business operations with quantifiable efficiency gains.",
-      features: ["Enterprise Solutions", "Complex Automation", "Scalable Architecture"],
-      badge: "Enterprise",
+      title: "MLOps & AI Operations",
+      description: "Enterprise-grade deployment and management. We ensure continuous optimization, monitoring, and scalability for all deployed AI systems.",
+      features: ["Enterprise Deployment", "Continuous Optimization", "Monitoring", "Scalability"],
+      badge: "Operations",
       gradient: "from-indigo-500/20 to-purple-500/20",
       hoverGradient: "from-indigo-500/30 to-purple-500/30",
       size: "medium",
@@ -96,7 +96,6 @@ const ServicesSection = () => {
         x={-1} 
         y={-1} 
         className={cn("text-indigo-400/40 stroke-indigo-400/40 fill-indigo-400/20 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]")} 
-        squares={[[2, 2], [5, 1], [8, 3], [3, 6], [7, 5], [1, 4], [6, 2], [4, 7]]} 
       />
     }
   ];

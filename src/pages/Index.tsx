@@ -26,6 +26,7 @@ const Index = () => {
       <ProcessSection />
       <Testimonials />
       <Footer />
+      
     </div>
   );
 };

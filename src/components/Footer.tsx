@@ -1,146 +1,13 @@
 import { Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-
-// FlickeringGrid component for the animated text effect
-const FlickeringGrid = ({ className, squareSize = 4, gridGap = 6, color = "#6B7280", maxOpacity = 0.5, flickerChance = 0.1, height = 800, width = 800 }) => {
-  const [grid, setGrid] = useState([]);
-
-  useEffect(() => {
-    const cols = Math.floor(width / (squareSize + gridGap));
-    const rows = Math.floor(height / (squareSize + gridGap));
-    
-    const createGrid = () => {
-      const newGrid = [];
-      for (let i = 0; i < rows; i++) {
-        const row = [];
-        for (let j = 0; j < cols; j++) {
-          row.push({
-            opacity: Math.random() < flickerChance ? Math.random() * maxOpacity : 0,
-            id: `${i}-${j}`
-          });
-        }
-        newGrid.push(row);
-      }
-      return newGrid;
-    };
-
-    setGrid(createGrid());
-    
-    const interval = setInterval(() => {
-      setGrid(createGrid());
-    }, 200);
-
-    return () => clearInterval(interval);
-  }, [squareSize, gridGap, maxOpacity, flickerChance, height, width]);
-
-  return (
-    <div className={className}>
-      <svg width={width} height={height} className="absolute inset-0">
-        {grid.map((row, i) => 
-          row.map((cell, j) => (
-            <rect
-              key={cell.id}
-              x={j * (squareSize + gridGap)}
-              y={i * (squareSize + gridGap)}
-              width={squareSize}
-              height={squareSize}
-              fill={color}
-              opacity={cell.opacity}
-            />
-          ))
-        )}
-      </svg>
-    </div>
-  );
-};
-
-// Dot matrix text component
-const DotMatrixText = ({ text, className }) => {
-  const [textGrid, setTextGrid] = useState([]);
-  
-  useEffect(() => {
-    // Create a simple dot matrix pattern for the text
-    const createTextPattern = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      
-      // Set canvas size
-      canvas.width = 1200;
-      canvas.height = 120;
-      
-      // Set font
-      ctx.font = 'bold 80px monospace';
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      
-      // Draw text
-      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-      
-      // Get image data
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
-      
-      // Convert to dot matrix
-      const dotSize = 8;
-      const dots = [];
-      
-      for (let y = 0; y < canvas.height; y += dotSize) {
-        for (let x = 0; x < canvas.width; x += dotSize) {
-          const i = (y * canvas.width + x) * 4;
-          const alpha = data[i + 3];
-          
-          if (alpha > 128) { // If pixel is not transparent
-            dots.push({
-              x: x,
-              y: y,
-              opacity: Math.random() * 0.8 + 0.2,
-              id: `${x}-${y}`
-            });
-          }
-        }
-      }
-      
-      return dots;
-    };
-    
-    const dots = createTextPattern();
-    setTextGrid(dots);
-    
-    // Animate the dots
-    const interval = setInterval(() => {
-      setTextGrid(prevDots => 
-        prevDots.map(dot => ({
-          ...dot,
-          opacity: Math.random() * 0.6 + 0.4
-        }))
-      );
-    }, 150);
-    
-    return () => clearInterval(interval);
-  }, [text]);
-  
-  return (
-    <div className={`relative ${className}`}>
-      <svg width={1200} height={120} className="mx-auto">
-        {textGrid.map((dot) => (
-          <rect
-            key={dot.id}
-            x={dot.x}
-            y={dot.y}
-            width={4}
-            height={4}
-            fill="#9CA3AF"
-            opacity={dot.opacity}
-          />
-        ))}
-      </svg>
-    </div>
-  );
-};
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import { useEffect, useState, useRef } from "react";
 
 const Footer = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const footerRef = useRef<HTMLElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+
   const services = [
     "AI Consulting & Strategy",
     "AI Agent Development", 
@@ -163,22 +30,48 @@ const Footer = () => {
     { icon: Mail, href: "mailto:hello@thinkbyte.ai", label: "Email" }
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!footerRef.current) return;
+
+      const footerRect = footerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Show parallax text when footer is in view and user scrolls past it
+      const footerTop = footerRect.top;
+      const footerHeight = footerRect.height;
+      
+      // Start revealing when footer is mostly in view
+      if (footerTop < windowHeight * 0.8) {
+        const scrolledPast = (windowHeight * 0.8) - footerTop;
+        const progress = Math.min(scrolledPast / (footerHeight * 0.6), 1);
+        setScrollProgress(Math.max(0, progress));
+      } else {
+        setScrollProgress(0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      <footer className="bg-black text-white px-24">
+    <div className="relative">
+      {/* Footer Content - Above/Foreground */}
+      <footer ref={footerRef} className="bg-black text-white py-20 relative z-[20]">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-4 gap-12">
             {/* Company Info */}
             <div className="lg:col-span-1">
-              {/* <div className="flex items-center space-x-2 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">T</span>
-                </div>
-                <span className="text-2xl font-bold">Thinkbyte AI</span>
-              </div> */}
               <div className="flex justify-start items-center">
-              <img src="https://i0.wp.com/thinkbyte.ai/wp-content/uploads/2025/01/ifalgo-1.png?fit=799%2C107&ssl=1" alt="Thinkbyte AI" 
-                className="mb-4 object-cover w-[70%]" />
+                <img 
+                  src="https://i0.wp.com/thinkbyte.ai/wp-content/uploads/2025/01/ifalgo-1.png?fit=799%2C107&ssl=1" 
+                  alt="Thinkbyte AI" 
+                  className="mb-4 object-cover w-[70%]" 
+                />
               </div>
               
               <p className="text-white/80 mb-6 leading-relaxed text-left">
@@ -267,34 +160,43 @@ const Footer = () => {
               </div>
             </div>
           </div>
-
-          
         </div>
       </footer>
 
-      {/* Animated Grid Text Section */}
-      <div className="relative bg-black overflow-hidden py-20">
-        <div className="absolute inset-0 z-0">
-          <FlickeringGrid
-            className="absolute inset-0 z-0 size-full"
-            squareSize={4}
-            gridGap={6}
-            color="#6B7280"
-            maxOpacity={0.3}
-            flickerChance={0.08}
-            height={400}
-            width={2000}
-          />
-        </div>
-        
-        <div className="relative z-10 flex items-center justify-center">
-          <DotMatrixText 
-            text="Future of AI Automation"
-            className="mb-0"
-          />
+      {/* Parallax Text Section - Behind/Below */}
+      <div 
+        ref={parallaxRef}
+        className="fixed bottom-0 left-0 right-0 h-96 overflow-hidden pointer-events-none z-[1]"
+        style={{
+          display: scrollProgress > 0 ? 'block' : 'none'
+        }}
+      >
+        <div className="absolute inset-0 bg-black"></div>
+        <div 
+          className="absolute inset-0 flex items-center justify-center transition-all duration-500 ease-out"
+          style={{
+            transform: scrollProgress >= 1 
+              ? 'translateY(0px)' 
+              : `translateY(${(1 - scrollProgress) * 100}px)`,
+            opacity: scrollProgress
+          }}
+        >
+          <div className="opacity-20 w-full h-full">
+            <TextHoverEffect text="THINKBYTE" duration={0.3} />
+          </div>
         </div>
       </div>
-    </>
+      
+    </div>
+    <div className="py-20 px-4 bg-black">
+        <div className="max-w-6xl mx-auto">
+
+          <div className="w-full h-32 md:h-40 flex items-center justify-center">
+          </div>
+        </div>
+      </div>
+      </>
+
   );
 };
 
