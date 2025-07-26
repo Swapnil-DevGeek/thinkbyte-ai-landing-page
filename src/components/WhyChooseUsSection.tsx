@@ -124,7 +124,7 @@ const WhyChooseUsSection = () => {
                         {feature.stats}
                       </span>
                     </div>
-                    <p className="text-gray-400 leading-relaxed mb-6">{feature.description}</p>
+                    <p className="text-gray-400 leading-relaxed mb-6 text-left">{feature.description}</p>
                   </div>
                 </div>
                 

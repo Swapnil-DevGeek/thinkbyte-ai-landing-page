@@ -100,23 +100,33 @@ const showcaseProjects = [
 
 export default function WorkShowcaseCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const nextSlide = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % showcaseProjects.length);
+    setTimeout(() => setIsAnimating(false), 600);
   };
 
   const prevSlide = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setCurrentIndex((prev) => (prev - 1 + showcaseProjects.length) % showcaseProjects.length);
+    setTimeout(() => setIsAnimating(false), 600);
   };
 
   const goToSlide = (index: number) => {
+    if (isAnimating || index === currentIndex) return;
+    setIsAnimating(true);
     setCurrentIndex(index);
+    setTimeout(() => setIsAnimating(false), 600);
   };
 
   const currentProject = showcaseProjects[currentIndex];
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden z-10">
+    <section className="relative h-screen overflow-hidden z-10 flex flex-col">
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-black"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.15),transparent_60%)]"></div>
@@ -125,187 +135,169 @@ export default function WorkShowcaseCarousel() {
       {/* Animated grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000,transparent)]"></div>
       
-      <div className="relative max-w-7xl mx-auto px-4">
-        {/* Enhanced Section Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 text-violet-300 text-sm font-medium mb-8 backdrop-blur-sm">
-            <CheckCircle2 className="h-4 w-4 text-violet-400" />
-            AI Solutions we have built for our clients
+      <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col gap-y-6 py-6">
+        <div className="flex items-end justify-between pt-6 pb-4">
+          {/* Left - Header Content */}
+          
+          <div className="text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 text-violet-300 text-sm font-medium mb-3 backdrop-blur-sm">
+              <CheckCircle2 className="h-3 w-3 text-violet-400" />
+              AI Solutions Built for Clients
+            </div>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+              <span className="bg-gradient-to-r from-white via-violet-100 to-white bg-clip-text text-transparent">
+                Transforming Industries
+              </span>
+              <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-pink-400 bg-clip-text text-transparent ml-2">
+                with AI
+              </span>
+            </h2>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white via-violet-100 to-violet-200 bg-clip-text text-transparent leading-tight">
-              Transforming Industries
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              with AI Innovation
-            </span>
-          </h2>
-          <p className="text-xl md:text-2xl text-neutral-400 max-w-4xl mx-auto leading-relaxed font-light">
-            Discover how our AI solutions have delivered measurable impact across diverse industries, 
-            from healthcare to architecture and beyond.
-          </p>
+
+          {/* Right - Navigation Controls */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={prevSlide}
+              disabled={isAnimating}
+              className="group flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 border border-neutral-700/50 hover:border-violet-500/30 backdrop-blur-sm transition-all duration-300 text-neutral-400 hover:text-white hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Previous slide"
+            >
+              <ChevronLeftIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+            <button
+              onClick={nextSlide}
+              disabled={isAnimating}
+              className="group flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-300 text-white hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-violet-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Next slide"
+            >
+              <ChevronRightIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-0.5 transition-transform" />
+            </button>
+          </div>
         </div>
 
-        {/* Enhanced Carousel Container */}
-        <div className="relative group">
+        {/* Main Carousel Container - Fit content */}
+        <div className="relative group flex-1 min-h-0 overflow-hidden">
           {/* Main Carousel Content */}
-          <div className="relative bg-gradient-to-br from-neutral-900/40 via-neutral-800/30 to-neutral-900/40 rounded-3xl border border-neutral-700/50 backdrop-blur-xl overflow-hidden shadow-2xl">
+          <div className="relative bg-gradient-to-br from-neutral-900/40 via-neutral-800/30 to-neutral-900/40 rounded-2xl md:rounded-3xl border border-neutral-700/50 backdrop-blur-xl overflow-hidden shadow-2xl h-full">
             <div className={`absolute inset-0 bg-gradient-to-br ${currentProject.gradient} transition-all duration-1000 ease-out`}></div>
             
             {/* Subtle inner glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] via-transparent to-transparent"></div>
             
-            <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-0 min-h-[600px] md:min-h-[700px] lg:min-h-[650px]">
-              {/* Left Content - 3 columns */}
-              <div className="lg:col-span-3 flex flex-col justify-center p-6 md:p-8 lg:p-12 xl:p-16 space-y-6 md:space-y-8">
-                {/* Category Badge */}
-                <div className="flex items-center gap-3 mb-2">
-                  <Badge variant="secondary" className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border-0 px-4 py-1.5 text-sm font-medium backdrop-blur-sm">
-                    {currentProject.category}
-                  </Badge>
-                  <div className="h-1.5 w-1.5 bg-violet-400/60 rounded-full"></div>
-                  <span className="text-sm text-neutral-400 font-medium">Case Study</span>
-                </div>
+            <div className="relative w-full h-full overflow-hidden">
+              {/* Sliding Container */}
+              <div 
+                className="flex h-full transition-transform duration-600 ease-in-out"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {showcaseProjects.map((project, index) => (
+                  <div key={project.id} className="w-full flex-shrink-0 h-full">
+                    <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-0 h-full">
+                      {/* Left Content - 3 columns */}
+                      <div className="lg:col-span-3 flex flex-col justify-center p-4 md:p-6 lg:p-8 space-y-3 md:space-y-4">
+                        {/* Category Badge */}
+                        <div className="flex items-center gap-3 mb-1">
+                          <Badge variant="secondary" className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border-0 px-3 py-1 text-sm font-medium backdrop-blur-sm">
+                            {project.category}
+                          </Badge>
+                          <div className="h-1.5 w-1.5 bg-violet-400/60 rounded-full"></div>
+                          <span className="text-sm text-neutral-400 font-medium">Case Study</span>
+                        </div>
 
-                {/* Title & Subtitle */}
-                <div className="space-y-3 md:space-y-4">
-                  <h3 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                    <span className="bg-gradient-to-r from-white via-violet-100 to-white bg-clip-text text-transparent">
-                      {currentProject.title}
-                    </span>
-                  </h3>
-                  <p className="text-lg md:text-xl lg:text-2xl text-violet-200/90 font-medium leading-relaxed">
-                    {currentProject.subtitle}
-                  </p>
-                </div>
+                        {/* Title & Subtitle */}
+                        <div className="space-y-2 text-left">
+                          <h3 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
+                            <span className="bg-gradient-to-r from-white via-violet-100 to-white bg-clip-text text-transparent">
+                              {project.title}
+                            </span>
+                          </h3>
+                          <p className="text-base md:text-lg lg:text-xl text-violet-200/90 font-medium leading-relaxed">
+                            {project.subtitle}
+                          </p>
+                        </div>
 
-                {/* Summary */}
-                <p className="text-neutral-300 text-base md:text-lg lg:text-xl leading-relaxed font-light max-w-2xl">
-                  {currentProject.summary}
-                </p>
+                        {/* Summary */}
+                        <p className="text-neutral-300 text-left text-sm md:text-base lg:text-lg leading-relaxed font-light max-w-2xl">
+                          {project.summary}
+                        </p>
 
-                {/* Metrics */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
-                  {currentProject.metrics.map((metric, i) => {
-                    const IconComponent = metric.icon;
-                    return (
-                      <div key={i} className="group/metric flex flex-col items-center p-4 md:p-5 lg:p-6 rounded-2xl bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 border border-neutral-700/40 backdrop-blur-sm hover:border-violet-500/30 transition-all duration-300 hover:scale-105">
-                        <IconComponent className="h-6 w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 text-violet-400 mb-2 md:mb-3 group-hover/metric:text-violet-300 transition-colors" />
-                        <div className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-1">{metric.value}</div>
-                        <div className="text-xs md:text-xs lg:text-sm text-neutral-400 text-center font-medium">{metric.label}</div>
+                        {/* Metrics */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                          {project.metrics.map((metric, i) => {
+                            const IconComponent = metric.icon;
+                            return (
+                              <div key={i} className="group/metric flex flex-col items-center p-3 md:p-4 rounded-xl bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 border border-neutral-700/40 backdrop-blur-sm hover:border-violet-500/30 transition-all duration-300 hover:scale-105">
+                                <IconComponent className="h-5 w-5 md:h-6 md:w-6 text-violet-400 mb-2 group-hover/metric:text-violet-300 transition-colors" />
+                                <div className="text-lg md:text-xl lg:text-2xl font-bold text-white mb-1">{metric.value}</div>
+                                <div className="text-xs text-neutral-400 text-center font-medium">{metric.label}</div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Testimonial */}
+                        <div className="bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 rounded-xl p-4 md:p-5 border border-neutral-700/40 backdrop-blur-sm">
+                          <blockquote className="text-neutral-200 italic mb-3 leading-relaxed text-sm md:text-base font-light">
+                            "{project.testimonial.quote}"
+                          </blockquote>
+                          <div className="text-sm text-violet-300 font-semibold">
+                            — {project.testimonial.author}
+                          </div>
+                        </div>
+
+                        {/* CTA */}
+                        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                          <Link to={`/work/${project.id}`} className="w-full sm:w-auto">
+                            <Button 
+                              size="sm" 
+                              className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-6 py-2.5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-violet-500/25 border-0"
+                            >
+                              View Case Study
+                              <ArrowRightIcon className="ml-2 h-4 w-4" />
+                            </Button>
+                          </Link>
+                        </div>
                       </div>
-                    );
-                  })}
-                </div>
 
-                {/* Testimonial */}
-                <div className="bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 rounded-2xl p-5 md:p-6 lg:p-8 border border-neutral-700/40 backdrop-blur-sm">
-                  <blockquote className="text-neutral-200 italic mb-4 leading-relaxed text-base md:text-lg font-light">
-                    "{currentProject.testimonial.quote}"
-                  </blockquote>
-                  <div className="text-sm text-violet-300 font-semibold">
-                    — {currentProject.testimonial.author}
+                      {/* Right Content - Image - 2 columns */}
+                      <div className="lg:col-span-2 relative flex items-center justify-center p-4 md:p-6 lg:p-8">
+                        <div className="relative w-full h-full min-h-[250px] rounded-xl md:rounded-2xl overflow-hidden bg-neutral-800/30 border border-neutral-700/40 shadow-2xl group/image">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-all duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/70 via-transparent to-transparent"></div>
+                          
+                          {/* Enhanced Floating UI Elements */}
+                          <div className="absolute top-3 right-3 md:top-4 md:right-4 px-3 py-1.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
+                            <CheckCircle2 className="h-3 w-3 mr-1 inline" />
+                            Live Project
+                          </div>
+                          
+                          {/* Subtle overlay pattern */}
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)]"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-
-                {/* CTA */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-2 md:pt-4">
-                  <Link to={`/work/${currentProject.id}`} className="w-full sm:w-auto">
-                    <Button 
-                      size="lg" 
-                      className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-8 md:px-10 py-3 md:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-violet-500/25 border-0"
-                    >
-                      View Case Study
-                      <ArrowRightIcon className="ml-2 md:ml-3 h-4 md:h-5 w-4 md:w-5" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right Content - Image - 2 columns */}
-              <div className="lg:col-span-2 relative flex items-center justify-center p-6 md:p-8 lg:p-12">
-                <div className="relative w-full h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-800/30 border border-neutral-700/40 shadow-2xl group/image">
-                  <img
-                    src={currentProject.image}
-                    alt={currentProject.title}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/70 via-transparent to-transparent"></div>
-                  
-                  {/* Enhanced Floating UI Elements */}
-                  <div className="absolute top-4 right-4 md:top-6 md:right-6 px-3 py-1.5 md:px-4 md:py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs md:text-sm font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
-                    <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2 inline" />
-                    Live Project
-                  </div>
-                  
-                  {/* Subtle overlay pattern */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)]"></div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Enhanced Navigation Controls */}
-        <div className="flex flex-col gap-6 mt-8 md:mt-12">
-          {/* Mobile Layout - Stacked */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-            {/* Navigation Controls */}
-            <div className="flex items-center justify-center sm:justify-start gap-4 md:gap-6">
-              <div className="flex items-center gap-3 md:gap-4">
-                <button
-                  onClick={prevSlide}
-                  className="group flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 border border-neutral-700/50 hover:border-violet-500/30 backdrop-blur-sm transition-all duration-300 text-neutral-400 hover:text-white hover:scale-105"
-                  aria-label="Previous slide"
-                >
-                  <ChevronLeftIcon className="h-5 w-5 md:h-6 md:w-6 group-hover:-translate-x-0.5 transition-transform" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="group flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-300 text-white hover:scale-105 shadow-lg hover:shadow-xl hover:shadow-violet-500/25"
-                  aria-label="Next slide"
-                >
-                  <ChevronRightIcon className="h-5 w-5 md:h-6 md:w-6 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-              </div>
-            </div>
-
-            {/* Right Side - Know More Link */}
-            <Link to="/work" className="self-center sm:self-auto">
-              <Button 
-                variant="ghost" 
-                className="group text-violet-400 hover:text-violet-300 font-medium px-4 md:px-6 py-2 md:py-3 rounded-full border border-violet-500/20 hover:border-violet-500/40 hover:bg-violet-500/10 transition-all duration-300 text-sm md:text-base"
-              >
-                <span className="hidden sm:inline">Explore All Projects</span>
-                <span className="sm:hidden">View All</span>
-                <ArrowRightIcon className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </div>
-
-          {/* Enhanced Dot Indicators - Centered */}
-          <div className="flex items-center justify-center gap-2">
-            {showcaseProjects.map((project, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className="group relative"
-                aria-label={`Go to ${project.title}`}
-              >
-                <div className={`w-10 md:w-12 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? "bg-gradient-to-r from-violet-500 to-purple-500 shadow-lg shadow-violet-500/25"
-                    : "bg-neutral-600 hover:bg-neutral-500 group-hover:scale-110"
-                }`}></div>
-                
-                {/* Tooltip - Hidden on mobile */}
-                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-neutral-900 border border-neutral-700 rounded-lg text-xs text-white opacity-0 md:group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap z-10">
-                  {project.title}
-                </div>
-              </button>
-            ))}
-          </div>
+        {/* Center CTA */}
+        <div className="flex justify-center py-4 ">
+          <Link to="/work">
+            <Button 
+              variant="ghost" 
+              className="group text-violet-400 hover:text-violet-300 font-medium px-6 py-2.5 rounded-full border border-violet-500/20 hover:border-violet-500/40 hover:bg-violet-500/10 transition-all duration-300 text-sm md:text-base"
+            >
+              Explore All Projects
+              <ArrowRightIcon className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

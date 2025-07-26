@@ -25,8 +25,8 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/thinkbyte.ai/posts/?feedView=all", label: "LinkedIn" },
+    { icon: Twitter, href: "https://x.com/ThinkByte_AI?t=o-cTsvEknHv4Ac-tdJpp_A&s=08", label: "Twitter" },
     { icon: Mail, href: "mailto:hello@thinkbyte.ai", label: "Email" }
   ];
 
@@ -78,11 +78,7 @@ const Footer = () => {
                 Transforming businesses through AI-driven automation solutions. We help companies scale efficiently with intelligent AI agents.
               </p>
 
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <MapPin className="w-5 h-5 text-blue-400" />
-                  <span className="text-white/80">Bengaluru, India</span>
-                </div>
+              <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-blue-400" />
                   <span className="text-white/80">+91 951596-8690</span>
@@ -90,6 +86,43 @@ const Footer = () => {
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-blue-400" />
                   <span className="text-white/80">hello@thinkbyte.ai</span>
+                </div>
+              </div>
+              {/* Social Links below contact */}
+              <div className="flex space-x-4 mt-4">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    className="w-12 h-12 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-all duration-200 group"
+                    aria-label={social.label}
+                    target="_blank"
+                  >
+                    <social.icon className="w-5 h-5 text-white/80 group-hover:text-white transition-colors duration-200" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Office Addresses */}
+            <div>
+              <h3 className="text-xl font-bold mb-6">Our Offices</h3>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-semibold text-blue-400 mb-2">Bangalore Office</h4>
+                  <div className="text-white/80 space-y-1 text-sm leading-relaxed">
+                    <p>235, Binnamangala, 2nd Floor,</p>
+                    <p>13th cross, 2nd Stage, Indira Nagar</p>
+                    <p>Bangalore, India 560038</p>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-blue-400 mb-2">Vijayawada Office</h4>
+                  <div className="text-white/80 space-y-1 text-sm leading-relaxed">
+                    <p>G2 First Floor, Mallisetty Subbarao</p>
+                    <p>Apartment, Polkampadu, Vijaywada,</p>
+                    <p>Andhra Pradesh, India – 522501</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -126,38 +159,6 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Newsletter & Social */}
-            <div>
-              <h3 className="text-xl font-bold mb-6">Stay Updated</h3>
-              <p className="text-white/80 mb-4">
-                Get the latest AI insights and industry updates.
-              </p>
-              
-              <div className="flex space-x-2 mb-6">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:border-blue-400 transition-colors duration-200"
-                />
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors duration-200">
-                  Subscribe
-                </Button>
-              </div>
-
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    className="w-12 h-12 bg-white/10 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-all duration-200 group"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-5 h-5 text-white/80 group-hover:text-white transition-colors duration-200" />
-                  </a>
-                ))}
-              </div>
             </div>
           </div>
         </div>

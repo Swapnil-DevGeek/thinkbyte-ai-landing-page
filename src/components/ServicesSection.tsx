@@ -26,7 +26,7 @@ const ServicesSection = () => {
         cx={1} 
         cy={1} 
         cr={2} 
-        className={cn("text-purple-400/60 [mask-image:radial-gradient(400px_circle_at_center,white,transparent)]")} 
+        className={cn("text-purple-400/30 [mask-image:radial-gradient(400px_circle_at_center,white,transparent)] opacity-50")} 
         glow={true} 
       />
     },
@@ -41,11 +41,11 @@ const ServicesSection = () => {
       size: "large",
       background: <AnimatedGridPattern 
         numSquares={35} 
-        maxOpacity={0.3} 
+        maxOpacity={0.15} 
         duration={4} 
         width={32} 
         height={32} 
-        className={cn("text-blue-400/50 stroke-blue-400/30 fill-blue-400/20 [mask-image:radial-gradient(450px_circle_at_center,white,transparent)]")} 
+        className={cn("text-blue-400/25 stroke-blue-400/15 fill-blue-400/10 [mask-image:radial-gradient(450px_circle_at_center,white,transparent)] opacity-50")} 
       />
     },
     {
@@ -57,7 +57,7 @@ const ServicesSection = () => {
       gradient: "from-green-500/20 to-emerald-500/20",
       hoverGradient: "from-green-500/30 to-emerald-500/30",
       size: "medium",
-      background: <FlickeringGrid className="absolute inset-0" squareSize={6} gridGap={8} color="#34d399" maxOpacity={0.4} flickerChance={0.15} />
+      background: <FlickeringGrid className="absolute inset-0 opacity-30" squareSize={6} gridGap={8} color="#34d399" maxOpacity={0.2} flickerChance={0.15} />
     },
     {
       icon: MessageSquare,
@@ -68,7 +68,7 @@ const ServicesSection = () => {
       gradient: "from-cyan-500/20 to-blue-500/20",
       hoverGradient: "from-cyan-500/30 to-blue-500/30",
       size: "medium",
-      background: <Ripple className="absolute inset-0 text-cyan-400/40" mainCircleSize={100} mainCircleOpacity={0.3} numCircles={5} />
+      background: <Ripple className="absolute inset-0 text-cyan-400/20 opacity-10" mainCircleSize={100} mainCircleOpacity={0.15} numCircles={5} />
     },
     {
       icon: Cog,
@@ -79,7 +79,7 @@ const ServicesSection = () => {
       gradient: "from-orange-500/20 to-red-500/20",
       hoverGradient: "from-orange-500/30 to-red-500/30",
       size: "medium",
-      background: <RetroGrid className="absolute inset-0" angle={45} cellSize={40} opacity={0.6} lightLineColor="rgba(249, 115, 22, 0.3)" darkLineColor="rgba(249, 115, 22, 0.3)" />
+      background: <RetroGrid className="absolute inset-0 opacity-30" angle={45} cellSize={40} opacity={0.3} lightLineColor="rgba(249, 115, 22, 0.15)" darkLineColor="rgba(249, 115, 22, 0.15)" />
     },
     {
       icon: Brain,
@@ -95,7 +95,7 @@ const ServicesSection = () => {
         height={30} 
         x={-1} 
         y={-1} 
-        className={cn("text-indigo-400/40 stroke-indigo-400/40 fill-indigo-400/20 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]")} 
+        className={cn("text-indigo-400/20 stroke-indigo-400/20 fill-indigo-400/10 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]")} 
       />
     }
   ];
