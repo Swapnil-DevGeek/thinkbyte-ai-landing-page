@@ -9,8 +9,10 @@ const Navigation = () => {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
   const [expandedMobileItems, setExpandedMobileItems] = useState<string[]>([]);
   const [dropdownPosition, setDropdownPosition] = useState<{[key: string]: {left: number, width: number}}>({});
+  const [isHoveringDropdown, setIsHoveringDropdown] = useState(false);
   const navigate = useNavigate();
   const navRef = useRef<HTMLDivElement>(null);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -59,14 +61,56 @@ const Navigation = () => {
   };
 
   const handleMouseEnter = (itemName: string, event: React.MouseEvent<HTMLButtonElement>) => {
+    // Clear any existing timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    
     setActiveDropdown(itemName);
     setHoveredSection(null);
+    setIsHoveringDropdown(false);
     
     const position = calculateDropdownPosition(itemName, event.currentTarget);
     setDropdownPosition(prev => ({
       ...prev,
       [itemName]: position
     }));
+  };
+
+  const handleMouseLeave = () => {
+    // Set a timeout to close the dropdown, but only if not hovering over dropdown content
+    closeTimeoutRef.current = setTimeout(() => {
+      if (!isHoveringDropdown) {
+        setActiveDropdown(null);
+        setHoveredSection(null);
+      }
+    }, 150);
+  };
+
+  const handleDropdownMouseEnter = () => {
+    // Clear any existing timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setIsHoveringDropdown(true);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    setIsHoveringDropdown(false);
+    setActiveDropdown(null);
+    setHoveredSection(null);
+  };
+
+  const handleNonDropdownHover = () => {
+    // Clear any existing timeout
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setActiveDropdown(null);
+    setHoveredSection(null);
   };
 
   // Handle window resize
@@ -80,6 +124,15 @@ const Navigation = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [activeDropdown]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const navItems = [
     {
@@ -368,12 +421,16 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden xl:flex items-center" ref={navRef}>
             {/* Main Nav Items */}
-            <div className="flex items-center space-x-10 mr-10">
+            <div 
+              className="flex items-center space-x-10 mr-10"
+              onMouseLeave={handleMouseLeave}
+            >
               {navItems.map((item) => (
                 <div key={item.name} className="relative">
                   {item.href ? (
                     <button
                       onClick={() => handleNavClick(item.href)}
+                      onMouseEnter={handleNonDropdownHover}
                       className="text-white/80 hover:text-white font-normal text-[15px] transition-colors duration-200 tracking-wide"
                     >
                       {item.name}
@@ -397,11 +454,8 @@ const Navigation = () => {
                         top: '84px', // Fixed position from top
                         width: `${dropdownPosition[item.name]?.width || 1100}px`
                       }}
-                      onMouseEnter={() => setActiveDropdown(item.name)}
-                      onMouseLeave={() => {
-                        setActiveDropdown(null);
-                        setHoveredSection(null);
-                      }}
+                      onMouseEnter={handleDropdownMouseEnter}
+                      onMouseLeave={handleDropdownMouseLeave}
                     >
                       <div className="relative">
                         {/* Content */}
@@ -487,6 +541,7 @@ const Navigation = () => {
             {/* CTA Button */}
             <Button 
               onClick={() => handleNavClick("/contact")}
+              onMouseEnter={handleNonDropdownHover}
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium px-7 py-2.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-purple-500/25 flex items-center gap-2 group"
             >
               Contact us
