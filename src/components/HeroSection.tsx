@@ -7,8 +7,8 @@ import { ArrowRight, Sparkles, Zap, TrendingUp } from "lucide-react";
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden">
-      {/* Spline Background */}
-      <div className="absolute inset-0 w-full h-full">
+      {/* Spline Background - Hidden on mobile for performance */}
+      <div className="absolute inset-0 w-full h-full hidden lg:block">
         <iframe 
           src='https://my.spline.design/claritystream-a72K0KUwFoZV82QBzvu52Kai/' 
           frameBorder='0' 
