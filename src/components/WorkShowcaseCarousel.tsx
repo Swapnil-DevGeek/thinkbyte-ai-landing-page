@@ -126,7 +126,7 @@ export default function WorkShowcaseCarousel() {
   const currentProject = showcaseProjects[currentIndex];
 
   return (
-    <section className="relative h-screen overflow-hidden z-10 flex flex-col">
+    <section className="relative py-20 overflow-hidden z-10">
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-black"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.15),transparent_60%)]"></div>
@@ -135,7 +135,7 @@ export default function WorkShowcaseCarousel() {
       {/* Animated grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000,transparent)]"></div>
       
-      <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col gap-y-6 py-6">
+      <div className="relative max-w-7xl mx-auto px-4 flex flex-col gap-y-6">
         <div className="flex items-end justify-between pt-6 pb-4">
           {/* Left - Header Content */}
           
@@ -175,8 +175,8 @@ export default function WorkShowcaseCarousel() {
           </div>
         </div>
 
-        {/* Main Carousel Container - Fit content */}
-        <div className="relative group flex-1 min-h-0 overflow-hidden">
+        {/* Main Carousel Container - Fixed height */}
+        <div className="relative group h-[600px] overflow-hidden">
           {/* Main Carousel Content */}
           <div className="relative bg-gradient-to-br from-neutral-900/40 via-neutral-800/30 to-neutral-900/40 rounded-2xl md:rounded-3xl border border-neutral-700/50 backdrop-blur-xl overflow-hidden shadow-2xl h-full">
             <div className={`absolute inset-0 bg-gradient-to-br ${currentProject.gradient} transition-all duration-1000 ease-out`}></div>
@@ -192,11 +192,11 @@ export default function WorkShowcaseCarousel() {
               >
                 {showcaseProjects.map((project, index) => (
                   <div key={project.id} className="w-full flex-shrink-0 h-full">
-                    <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-0 h-full">
-                      {/* Left Content - 3 columns */}
-                      <div className="lg:col-span-3 flex flex-col justify-center p-4 md:p-6 lg:p-8 space-y-3 md:space-y-4">
+                    <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-6 h-full items-center">
+                      {/* Left Content */}
+                      <div className="flex flex-col justify-center p-6 lg:p-8 space-y-4 h-full">
                         {/* Category Badge */}
-                        <div className="flex items-center gap-3 mb-1">
+                        <div className="flex items-center gap-3 mb-2">
                           <Badge variant="secondary" className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border-0 px-3 py-1 text-sm font-medium backdrop-blur-sm">
                             {project.category}
                           </Badge>
@@ -206,38 +206,37 @@ export default function WorkShowcaseCarousel() {
 
                         {/* Title & Subtitle */}
                         <div className="space-y-2 text-left">
-                          <h3 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
+                          <h3 className="text-3xl lg:text-4xl font-bold leading-tight">
                             <span className="bg-gradient-to-r from-white via-violet-100 to-white bg-clip-text text-transparent">
                               {project.title}
                             </span>
                           </h3>
-                          <p className="text-base md:text-lg lg:text-xl text-violet-200/90 font-medium leading-relaxed">
+                          <p className="text-lg text-violet-200/90 font-medium leading-relaxed">
                             {project.subtitle}
                           </p>
                         </div>
 
                         {/* Summary */}
-                        <p className="text-neutral-300 text-left text-sm md:text-base lg:text-lg leading-relaxed font-light max-w-2xl">
+                        <p className="text-neutral-300 text-left text-base leading-relaxed font-light">
                           {project.summary}
                         </p>
 
                         {/* Metrics */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                        <div className="grid grid-cols-3 gap-4">
                           {project.metrics.map((metric, i) => {
                             const IconComponent = metric.icon;
                             return (
-                              <div key={i} className="group/metric flex flex-col items-center p-3 md:p-4 rounded-xl bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 border border-neutral-700/40 backdrop-blur-sm hover:border-violet-500/30 transition-all duration-300 hover:scale-105">
-                                <IconComponent className="h-5 w-5 md:h-6 md:w-6 text-violet-400 mb-2 group-hover/metric:text-violet-300 transition-colors" />
-                                <div className="text-lg md:text-xl lg:text-2xl font-bold text-white mb-1">{metric.value}</div>
-                                <div className="text-xs text-neutral-400 text-center font-medium">{metric.label}</div>
+                              <div key={i} className="text-center">
+                                <div className="text-2xl lg:text-3xl font-bold text-white mb-1">{metric.value}</div>
+                                <div className="text-xs text-neutral-400 font-medium">{metric.label}</div>
                               </div>
                             );
                           })}
                         </div>
 
                         {/* Testimonial */}
-                        <div className="bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 rounded-xl p-4 md:p-5 border border-neutral-700/40 backdrop-blur-sm">
-                          <blockquote className="text-neutral-200 italic mb-3 leading-relaxed text-sm md:text-base font-light">
+                        <div className="bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 rounded-xl p-4 border border-neutral-700/40 backdrop-blur-sm">
+                          <blockquote className="text-neutral-200 italic mb-2 leading-relaxed text-sm font-light">
                             "{project.testimonial.quote}"
                           </blockquote>
                           <div className="text-sm text-violet-300 font-semibold">
@@ -246,11 +245,11 @@ export default function WorkShowcaseCarousel() {
                         </div>
 
                         {/* CTA */}
-                        <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                          <Link to={`/work/${project.id}`} className="w-full sm:w-auto">
+                        <div className="pt-2">
+                          <Link to={`/work/${project.id}`}>
                             <Button 
                               size="sm" 
-                              className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-6 py-2.5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-violet-500/25 border-0"
+                              className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold px-6 py-2.5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-violet-500/25 border-0"
                             >
                               View Case Study
                               <ArrowRightIcon className="ml-2 h-4 w-4" />
@@ -259,9 +258,9 @@ export default function WorkShowcaseCarousel() {
                         </div>
                       </div>
 
-                      {/* Right Content - Image - 2 columns */}
-                      <div className="lg:col-span-2 relative flex items-center justify-center p-4 md:p-6 lg:p-8">
-                        <div className="relative w-full h-full min-h-[250px] rounded-xl md:rounded-2xl overflow-hidden bg-neutral-800/30 border border-neutral-700/40 shadow-2xl group/image">
+                      {/* Right Content - Image */}
+                      <div className="relative flex items-center justify-center p-6 lg:p-8 h-full">
+                        <div className="relative w-full h-[400px] rounded-xl overflow-hidden bg-neutral-800/30 border border-neutral-700/40 shadow-2xl">
                           <img
                             src={project.image}
                             alt={project.title}
@@ -270,7 +269,7 @@ export default function WorkShowcaseCarousel() {
                           <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/70 via-transparent to-transparent"></div>
                           
                           {/* Enhanced Floating UI Elements */}
-                          <div className="absolute top-3 right-3 md:top-4 md:right-4 px-3 py-1.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
+                          <div className="absolute top-4 right-4 px-3 py-1.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full border border-green-500/30 backdrop-blur-sm">
                             <CheckCircle2 className="h-3 w-3 mr-1 inline" />
                             Live Project
                           </div>

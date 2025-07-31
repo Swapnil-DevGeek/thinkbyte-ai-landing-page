@@ -220,6 +220,7 @@ const Navigation = () => {
       sections: [
         {
           title: "Healthcare",
+          href: "/industries/healthcare",
           items: [
             { name: "Accelerated Drug Discovery", href: "/healthcare/drug-discovery" },
             { name: "Clinical Decision Support", href: "/healthcare/clinical-decision" },
@@ -465,24 +466,50 @@ const Navigation = () => {
                             <div className="w-[280px] min-w-[280px] bg-[#0F0F18] p-6 border-r border-white/5">
                               <div className="space-y-2">
                                 {item.sections?.map((section) => (
-                                  <button
-                                    key={section.title}
-                                    onMouseEnter={() => setHoveredSection(section.title)}
-                                    className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 ease-out ${
-                                      hoveredSection === section.title || (!hoveredSection && section === item.sections?.[0])
-                                        ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white border border-purple-500/30 shadow-lg transform scale-[1.02]' 
-                                        : 'text-white/60 hover:text-white/80 hover:bg-white/5 hover:transform hover:scale-[1.01]'
-                                    }`}
-                                  >
-                                    <div className="flex items-center justify-between">
-                                      <span className="text-sm font-medium tracking-wide transition-colors duration-300">{section.title}</span>
-                                      <ArrowRight className={`w-4 h-4 transition-all duration-300 ease-out ${
+                                  section.href ? (
+                                    <Link
+                                      key={section.title}
+                                      to={section.href}
+                                      onMouseEnter={() => setHoveredSection(section.title)}
+                                      onClick={() => {
+                                        setActiveDropdown(null);
+                                        setHoveredSection(null);
+                                      }}
+                                      className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 ease-out block ${
                                         hoveredSection === section.title || (!hoveredSection && section === item.sections?.[0])
-                                          ? 'opacity-100 translate-x-0 text-purple-300 transform scale-110' 
-                                          : 'opacity-0 -translate-x-2 text-white/40 transform scale-100'
-                                      }`} />
-                                    </div>
-                                  </button>
+                                          ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white border border-purple-500/30 shadow-lg transform scale-[1.02]' 
+                                          : 'text-white/60 hover:text-white/80 hover:bg-white/5 hover:transform hover:scale-[1.01]'
+                                      }`}
+                                    >
+                                      <div className="flex items-center justify-between">
+                                        <span className="text-sm font-medium tracking-wide transition-colors duration-300">{section.title}</span>
+                                        <ArrowRight className={`w-4 h-4 transition-all duration-300 ease-out ${
+                                          hoveredSection === section.title || (!hoveredSection && section === item.sections?.[0])
+                                            ? 'opacity-100 translate-x-0 text-purple-300 transform scale-110' 
+                                            : 'opacity-0 -translate-x-2 text-white/40 transform scale-100'
+                                        }`} />
+                                      </div>
+                                    </Link>
+                                  ) : (
+                                    <button
+                                      key={section.title}
+                                      onMouseEnter={() => setHoveredSection(section.title)}
+                                      className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 ease-out ${
+                                        hoveredSection === section.title || (!hoveredSection && section === item.sections?.[0])
+                                          ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-white border border-purple-500/30 shadow-lg transform scale-[1.02]' 
+                                          : 'text-white/60 hover:text-white/80 hover:bg-white/5 hover:transform hover:scale-[1.01]'
+                                      }`}
+                                    >
+                                      <div className="flex items-center justify-between">
+                                        <span className="text-sm font-medium tracking-wide transition-colors duration-300">{section.title}</span>
+                                        <ArrowRight className={`w-4 h-4 transition-all duration-300 ease-out ${
+                                          hoveredSection === section.title || (!hoveredSection && section === item.sections?.[0])
+                                            ? 'opacity-100 translate-x-0 text-purple-300 transform scale-110' 
+                                            : 'opacity-0 -translate-x-2 text-white/40 transform scale-100'
+                                        }`} />
+                                      </div>
+                                    </button>
+                                  )
                                 ))}
                               </div>
                             </div>
